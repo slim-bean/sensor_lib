@@ -1,0 +1,73 @@
+---
+
+- id: 0
+  name: "Unused"
+  format: Bool
+  destination_queues:
+    - "none"
+
+- id: 1
+  name: "WS 1 Batt"
+  format: TwoByteFloat
+  destination_queues:
+    - "/ws/1/batt"
+
+- id: 2
+  name: "WS 1 Temp"
+  format: TwoByteFloat
+  destination_queues:
+    - "/ws/1/temp"
+
+- id: 3
+  name: "WS 1 Humidity"
+  format: TwoByteFloat
+  destination_queues:
+    - "/ws/1/humidity"
+
+- id: 4
+  name: "WS 1 UV Raw"
+  format: TwoByteInt
+  destination_queues:
+    - "/ws/1/raw_uv"
+
+- id: 5
+  name: "WS 1 UV Index"
+  format: TwoByteFloat
+  destination_queues:
+    - "/ws/1/uv_index"
+
+- id: 6
+  name: "WS 1 ALS UV Index"
+  format: TwoByteFloat
+  destination_queues:
+    - "/ws/1/als_uv_index"
+
+- id: 7
+  name: "WS 1 ALS Visible Light Raw"
+  format: TwoByteInt
+  destination_queues:
+    - "/ws/1/als_vis_raw"
+
+- id: 8
+  name: "WS 1 ALS IR Light Raw"
+  format: TwoByteInt
+  destination_queues:
+    - "/ws/1/als_ir_raw"
+
+- id: 9
+  name: "WS 1 ALS Lux"
+  format: FourByteInt
+  destination_queues:
+    - "/ws/1/als_lux"
+
+- id: 10
+  name: "WS 1 Rain Gauge Tip"
+  format: Bool
+  destination_queues:
+    - "/ws/1/rain"
+
+- id: 11
+  name: "WS 1 Retransmissions"
+  format: SingleByteInt
+  destination_queues:
+    - "/ws/1/retransmissions"
