@@ -5,69 +5,120 @@
   format: Bool
   destination_queues:
     - "none"
+  metric_name: "unused"
+  metric_type: Gauge
+  metric_labels:
+    none: "none"
 
 - id: 1
   name: "WS 1 Batt"
   format: TwoByteFloat
   destination_queues:
     - "/ws/1/batt"
+  metric_name: "ws_1_batt"
+  metric_type: Gauge
+  metric_labels:
+    location: "ws1"
+
 
 - id: 2
   name: "WS 1 Temp"
   format: TwoByteFloat
   destination_queues:
     - "/ws/1/temp"
+  metric_name: "outside_temp_f"
+  metric_type: Gauge
+  metric_labels:
+    location: "ws1"
 
 - id: 3
   name: "WS 1 Humidity"
   format: TwoByteFloat
   destination_queues:
     - "/ws/1/humidity"
+  metric_name: "outside_humidity_percent"
+  metric_type: Gauge
+  metric_labels:
+    location: "ws1"
 
 - id: 4
   name: "WS 1 UV Raw"
   format: TwoByteInt
   destination_queues:
     - "/ws/1/raw_uv"
+  metric_name: "uv_raw"
+  metric_type: Gauge
+  metric_labels:
+    location: "ws1"
 
 - id: 5
   name: "WS 1 UV Index"
   format: TwoByteFloat
   destination_queues:
     - "/ws/1/uv_index"
+  metric_name: "uv_index"
+  metric_type: Gauge
+  metric_labels:
+    location: "ws1"
+    sensor: "VEML6070"
 
 - id: 6
   name: "WS 1 ALS UV Index"
   format: TwoByteFloat
   destination_queues:
     - "/ws/1/als_uv_index"
+  metric_name: "uv_index"
+  metric_type: Gauge
+  metric_labels:
+    location: "ws1"
+    sensor: "SI1145"
 
 - id: 7
   name: "WS 1 ALS Visible Light Raw"
   format: TwoByteInt
   destination_queues:
     - "/ws/1/als_vis_raw"
+  metric_name: "vis_light_raw"
+  metric_type: Gauge
+  metric_labels:
+    location: "ws1"
 
 - id: 8
   name: "WS 1 ALS IR Light Raw"
   format: TwoByteInt
   destination_queues:
     - "/ws/1/als_ir_raw"
+  metric_name: "ir_light_raw"
+  metric_type: Gauge
+  metric_labels:
+    location: "ws1"
 
 - id: 9
   name: "WS 1 ALS Lux"
   format: FourByteInt
   destination_queues:
     - "/ws/1/als_lux"
+  metric_name: "light_intensity_lux"
+  metric_type: Gauge
+  metric_labels:
+    location: "ws1"
 
 - id: 10
   name: "WS 1 Rain Gauge Tip"
   format: Bool
   destination_queues:
     - "/ws/1/rain"
+  metric_name: "rain_fall_hun_in"
+  metric_type: Counter
+  metric_labels:
+    location: "ws1"
 
 - id: 11
   name: "WS 1 Retransmissions"
   format: SingleByteInt
   destination_queues:
     - "/ws/1/retransmissions"
+  metric_name: "wireless_retransmissions"
+  metric_type: Counter
+  metric_labels:
+    location: "ws1"
