@@ -36,7 +36,7 @@ pub struct SensorDefinition {
 #[derive(Debug, PartialEq, Serialize, Deserialize)]
 pub struct SensorValue {
     pub id: u16,
-    pub name: String,
+    pub timestamp: u64,
     pub value: String,
 }
 
