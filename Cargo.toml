@@ -7,3 +7,5 @@ authors = ["Edward Welch <ed@oqqer.com>"]
 serde = "1.0.70"
 serde_derive = "1.0.70"
 serde_yaml = "0.7"
+
+#lazy_static = "1.1.0"

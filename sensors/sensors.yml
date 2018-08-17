@@ -122,3 +122,23 @@
   metric_type: Counter
   metric_labels:
     location: "ws1"
+
+- id: 50
+  name: "WS 2 Temp"
+  format: TwoByteFloat
+  destination_queues:
+    - "/ws/2/temp"
+  metric_name: "temp_f"
+  metric_type: Gauge
+  metric_labels:
+    location: "ws2"
+
+- id: 51
+  name: "WS 2 Humidity"
+  format: TwoByteFloat
+  destination_queues:
+    - "/ws/2/humidity"
+  metric_name: "humidity_percent"
+  metric_type: Gauge
+  metric_labels:
+    location: "ws2"
