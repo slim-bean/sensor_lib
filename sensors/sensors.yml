@@ -142,3 +142,34 @@
   metric_type: Gauge
   metric_labels:
     location: "ws2"
+
+
+- id: 100
+  name: "WS 3 Propane"
+  format: Bool
+  destination_queues:
+  - "/ws/3/propane"
+  metric_name: "cu_ft_propane"
+  metric_type: Counter
+  metric_labels:
+    location: "ws3"
+
+- id: 101
+  name: "WS 3 Temp"
+  format: TwoByteFloat
+  destination_queues:
+  - "/ws/3/temp"
+  metric_name: "temp_f"
+  metric_type: Gauge
+  metric_labels:
+    location: "ws3"
+
+- id: 102
+  name: "WS 3 Humidity"
+  format: TwoByteFloat
+  destination_queues:
+  - "/ws/3/humidity"
+  metric_name: "humidity_percent"
+  metric_type: Gauge
+  metric_labels:
+    location: "ws3"
