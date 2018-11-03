@@ -54,7 +54,7 @@ pub enum MetricType {
 
 #[derive(Debug, PartialEq, Serialize, Deserialize)]
 pub struct SensorDefinition {
-    pub id: u16,
+    pub id: i16,
     pub name: String,
     pub format: SensorFormat,
     pub destination_queues: Vec<String>,
@@ -66,13 +66,33 @@ pub struct SensorDefinition {
 
 #[derive(Debug, PartialEq, Serialize, Deserialize)]
 pub struct SensorValue {
-    pub id: u16,
+    pub id: i16,
     pub timestamp: u64,
     pub value: String,
 }
 
+//Most of the i32's are actually 16bit unsigned but postgres doesn't have an unsigned so we are forced to use i32
+#[derive(Debug, PartialEq, Serialize, Deserialize)]
+pub struct LightValue {
+    pub timestamp: u64,
+    pub location: i16,
+    pub uv_raw: i32,
+    pub uv_index: f32,
+    pub vis_raw: i32,
+    pub ir_raw: i32,
+    pub lux: i32,
+}
 
-pub fn load_from_file(yaml_file: &str) -> HashMap<u16, SensorDefinition> {
+#[derive(Debug, PartialEq, Serialize, Deserialize)]
+pub struct TempHumidityValue {
+    pub timestamp: u64,
+    pub location: i16,
+    pub temp: f32,
+    pub humidity: f32,
+}
+
+
+pub fn load_from_file(yaml_file: &str) -> HashMap<i16, SensorDefinition> {
     let file = File::open(yaml_file).unwrap();
     let mut sensors_map = HashMap::new();
     let sensors_vec = serde_yaml::from_reader::<BufReader<File>, Vec<SensorDefinition>>(BufReader::new(file)).unwrap();
