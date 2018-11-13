@@ -177,3 +177,35 @@
   metric_type: Gauge
   metric_labels:
     location: "ws3"
+
+- id: 200
+  name: "WS 4 Batt"
+  format: TwoByteFloat
+  destination_queues:
+  - "/ws/4/ind/batt"
+  - "/ws/4/grp/generic"
+  metric_name: "ws_4_batt"
+  metric_type: Gauge
+  metric_labels:
+    location: "ws4"
+
+- id: 201
+  name: "WS 4 Wind Speed MPH"
+  format: SingleByteInt
+  destination_queues:
+  - "/ws/4/ind/wind_speed"
+  metric_name: "wind_speed_mph"
+  metric_type: Gauge
+  metric_labels:
+    location: "ws4"
+
+- id: 202
+  name: "WS 4 Wind Dir Deg"
+  format: TwoByteInt
+  destination_queues:
+  - "/ws/4/ind/wind_dir"
+  metric_name: "wind_dir_deg"
+  metric_type: Gauge
+  metric_labels:
+    location: "ws4"
+
