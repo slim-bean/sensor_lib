@@ -91,6 +91,13 @@ pub struct TempHumidityValue {
     pub humidity: f32,
 }
 
+#[derive(Debug, PartialEq, Serialize, Deserialize)]
+pub struct WindSpeedDirValue{
+    pub timestamp: u64,
+    pub location: i16,
+    pub speed: i16,
+    pub dir: i16,
+}
 
 pub fn load_from_file(yaml_file: &str) -> HashMap<i16, SensorDefinition> {
     let file = File::open(yaml_file).unwrap();
