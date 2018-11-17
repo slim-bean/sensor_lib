@@ -209,3 +209,13 @@
   metric_labels:
     location: "ws4"
 
+- id: 203
+  name: "WS 4 Retransmissions"
+  format: SingleByteInt
+  destination_queues:
+  - "/ws/4/ind/retransmissions"
+  - "/ws/4/grp/generic"
+  metric_name: "wireless_retransmissions"
+  metric_type: Counter
+  metric_labels:
+    location: "ws4"
