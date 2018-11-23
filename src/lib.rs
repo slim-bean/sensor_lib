@@ -38,10 +38,10 @@ use std::io::BufReader;
 #[derive(Debug, PartialEq, Serialize, Deserialize)]
 pub enum SensorFormat {
     Bool,
-    TwoByteFloat,
-    SingleByteInt,
-    TwoByteInt,
-    FourByteInt,
+    TwoByteFloat,   //Limited in range from -128.99 to 127.99
+    SingleByteInt,  //Limited in range from 0 to 255
+    TwoByteInt,     //Limited in range from 0 to 65535
+    FourByteInt,    //Limited in range from 0 to 4294967295
 }
 
 #[derive(Debug, PartialEq, Serialize, Deserialize)]
