@@ -150,7 +150,7 @@
   name: "WS 2 CO2"
   format: TwoByteInt
   destination_queues:
-    - "/ws/2/ind/temp"
+    - "/ws/2/ind/co2"
     - "/ws/2/grp/generic"
   metric_name: "co2"
   metric_type: Gauge
@@ -161,9 +161,20 @@
   name: "WS 2 VOC"
   format: TwoByteInt
   destination_queues:
-    - "/ws/2/ind/humidity"
+    - "/ws/2/ind/voc"
     - "/ws/2/grp/generic"
   metric_name: "voc"
+  metric_type: Gauge
+  metric_labels:
+    location: "ws2"
+
+- id: 54
+  name: "WS 2 Barometric Pressure"
+  format: TwoByteFloat
+  destination_queues:
+  - "/ws/2/ind/pressure"
+  - "/ws/2/grp/generic"
+  metric_name: "pressure_inhg"
   metric_type: Gauge
   metric_labels:
     location: "ws2"
