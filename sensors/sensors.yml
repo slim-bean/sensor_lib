@@ -179,6 +179,17 @@
   metric_labels:
     location: "ws2"
 
+- id: 55
+  name: "WS 2 Radiation"
+  format: TwoByteInt
+  destination_queues:
+  - "/ws/2/ind/radiation"
+  - "/ws/2/grp/generic"
+  metric_name: "radiation_cpm"
+  metric_type: Gauge
+  metric_labels:
+    location: "ws2"
+
 
 - id: 100
   name: "WS 3 Propane"
