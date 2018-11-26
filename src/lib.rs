@@ -99,6 +99,14 @@ pub struct WindSpeedDirValue{
     pub dir: i16,
 }
 
+#[derive(Debug, PartialEq, Serialize, Deserialize)]
+pub struct AirParticulateValue{
+    pub timestamp: u64,
+    pub location: i16,
+    pub pm2_5: i16,
+    pub pm10: i16,
+}
+
 pub fn load_from_file(yaml_file: &str) -> HashMap<i16, SensorDefinition> {
     let file = File::open(yaml_file).unwrap();
     let mut sensors_map = HashMap::new();

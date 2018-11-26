@@ -190,6 +190,26 @@
   metric_labels:
     location: "ws2"
 
+- id: 56
+  name: "WS 2 PM2.5"
+  format: TwoByteInt
+  destination_queues:
+  - "/ws/2/ind/pm2_5"
+  metric_name: "pm2_5"
+  metric_type: Gauge
+  metric_labels:
+    location: "ws2"
+
+- id: 57
+  name: "WS 2 PM10"
+  format: TwoByteInt
+  destination_queues:
+  - "/ws/2/ind/pm10"
+  metric_name: "pm10"
+  metric_type: Gauge
+  metric_labels:
+    location: "ws2"
+
 
 - id: 100
   name: "WS 3 Propane"
