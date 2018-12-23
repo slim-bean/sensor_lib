@@ -6,6 +6,7 @@ extern crate serde_yaml;
 use std::collections::HashMap;
 use std::fs::File;
 use std::io::BufReader;
+use std::str;
 
 //#[macro_use]
 //extern crate lazy_static;
@@ -105,6 +106,387 @@ pub struct AirParticulateValue{
     pub location: i16,
     pub pm2_5: i16,
     pub pm10: i16,
+}
+
+#[derive(Debug, PartialEq, Serialize, Deserialize)]
+pub struct ElectricValue {
+    pub total_kwh: f64,
+    pub total_reactive: f64,
+    pub total_reverse: f64,
+    pub volts_l1: f32,
+    pub volts_l2: f32,
+    pub amps_l1: f32,
+    pub amps_l2: f32,
+    pub watts_l1: i16,
+    pub watts_l2: i16,
+    pub watts_total: i16,
+    pub pf_l1: f32,
+    pub pf_l2: f32,
+    pub reactive_l1: i16,
+    pub reactive_l2: i16,
+    pub reactive_total: i16,
+    pub frequency: f32,
+}
+
+
+#[derive(Debug)]
+pub struct ElectricValueParseError {
+    element: String,
+    message: String,
+    data: String,
+}
+
+impl std::fmt::Display for ElectricValueParseError {
+    fn fmt(&self, f: &mut std::fmt::Formatter) -> std::fmt::Result {
+        write!(f, "Failed parsing element '{}', with error '{}', and data '{}'",  self.element, self.message, self.data)
+    }
+}
+
+impl ElectricValue {
+    pub fn new(payload: &[u8;255]) -> Result<ElectricValue, ElectricValueParseError> {
+
+        let kwh_scale: u8 = str::from_utf8(&payload[230..231])
+            .map_err(|err| ElectricValueParseError{
+                element: String::from("kwh_scale"),
+                message: format!("{}", err),
+                data: String::new(),
+            })
+            .and_then( |val_as_str| val_as_str.parse().map_err(|err|{
+                ElectricValueParseError{
+                    element: String::from("kwh_scale"),
+                    message: format!("{}", err),
+                    data: String::from(val_as_str),
+                }
+            }))?;
+
+        let total_kwh = str::from_utf8(&payload[16..24])
+            .map_err(|err| ElectricValueParseError{
+                element: String::from("total_kwh"),
+                message: format!("{}", err),
+                data: String::new(),
+            })
+            .and_then( |val_as_str| val_as_str.parse().map_err(|err|{
+                ElectricValueParseError{
+                    element: String::from("total_kwh"),
+                    message: format!("{}", err),
+                    data: String::from(val_as_str),
+                }
+            }))
+            .and_then(|val_as_flt: f64| {
+                if kwh_scale == 0 {
+                    Ok(val_as_flt)
+                } else if kwh_scale == 1 {
+                    Ok(val_as_flt/10.0)
+                } else if kwh_scale == 2 {
+                    Ok(val_as_flt/100.0)
+                } else {
+                    Err(ElectricValueParseError{
+                        element: String::from("total_kwh"),
+                        message: format!("Unexpected kwh_scale: {}", kwh_scale),
+                        data: String::new(),
+                    })
+                }
+            })?;
+
+        let total_reactive = str::from_utf8(&payload[24..32])
+            .map_err(|err| ElectricValueParseError{
+                element: String::from("total_reactive"),
+                message: format!("{}", err),
+                data: String::new(),
+            })
+            .and_then( |val_as_str| val_as_str.parse().map_err(|err|{
+                ElectricValueParseError{
+                    element: String::from("total_reactive"),
+                    message: format!("{}", err),
+                    data: String::from(val_as_str),
+                }
+            }))
+            .and_then(|val_as_flt: f64| {
+                if kwh_scale == 0 {
+                    Ok(val_as_flt)
+                } else if kwh_scale == 1 {
+                    Ok(val_as_flt/10.0)
+                } else if kwh_scale == 2 {
+                    Ok(val_as_flt/100.0)
+                } else {
+                    Err(ElectricValueParseError{
+                        element: String::from("total_reactive"),
+                        message: format!("Unexpected kwh_scale: {}", kwh_scale),
+                        data: String::new(),
+                    })
+                }
+            })?;
+
+        let total_reverse = str::from_utf8(&payload[32..40])
+            .map_err(|err| ElectricValueParseError{
+                element: String::from("total_reverse"),
+                message: format!("{}", err),
+                data: String::new(),
+            })
+            .and_then( |val_as_str| val_as_str.parse().map_err(|err|{
+                ElectricValueParseError{
+                    element: String::from("total_reverse"),
+                    message: format!("{}", err),
+                    data: String::from(val_as_str),
+                }
+            }))
+            .and_then(|val_as_flt: f64| {
+                if kwh_scale == 0 {
+                    Ok(val_as_flt)
+                } else if kwh_scale == 1 {
+                    Ok(val_as_flt/10.0)
+                } else if kwh_scale == 2 {
+                    Ok(val_as_flt/100.0)
+                } else {
+                    Err(ElectricValueParseError{
+                        element: String::from("total_reverse"),
+                        message: format!("Unexpected kwh_scale: {}", kwh_scale),
+                        data: String::new(),
+                    })
+                }
+            })?;
+
+        let volts_l1 = str::from_utf8(&payload[104..108])
+            .map_err(|err| ElectricValueParseError{
+                element: String::from("volts_l1"),
+                message: format!("{}", err),
+                data: String::new(),
+            })
+            .and_then( |val_as_str| val_as_str.parse().map_err(|err|{
+                ElectricValueParseError{
+                    element: String::from("volts_l1"),
+                    message: format!("{}", err),
+                    data: String::from(val_as_str),
+                }
+            }))
+            .and_then(|val_as_flt: f32| Ok(val_as_flt/10.0))?;
+
+        let volts_l2 = str::from_utf8(&payload[108..112])
+            .map_err(|err| ElectricValueParseError{
+                element: String::from("volts_l2"),
+                message: format!("{}", err),
+                data: String::new(),
+            })
+            .and_then( |val_as_str| val_as_str.parse().map_err(|err|{
+                ElectricValueParseError{
+                    element: String::from("volts_l2"),
+                    message: format!("{}", err),
+                    data: String::from(val_as_str),
+                }
+            }))
+            .and_then(|val_as_flt: f32| Ok(val_as_flt/10.0))?;
+
+        let amps_l1 = str::from_utf8(&payload[116..121])
+            .map_err(|err| ElectricValueParseError{
+                element: String::from("amps_l1"),
+                message: format!("{}", err),
+                data: String::new(),
+            })
+            .and_then( |val_as_str| val_as_str.parse().map_err(|err|{
+                ElectricValueParseError{
+                    element: String::from("amps_l1"),
+                    message: format!("{}", err),
+                    data: String::from(val_as_str),
+                }
+            }))
+            .and_then(|val_as_flt: f32| Ok(val_as_flt/10.0))?;
+
+        let amps_l2 = str::from_utf8(&payload[121..126])
+            .map_err(|err| ElectricValueParseError{
+                element: String::from("amps_l2"),
+                message: format!("{}", err),
+                data: String::new(),
+            })
+            .and_then( |val_as_str| val_as_str.parse().map_err(|err|{
+                ElectricValueParseError{
+                    element: String::from("amps_l2"),
+                    message: format!("{}", err),
+                    data: String::from(val_as_str),
+                }
+            }))
+            .and_then(|val_as_flt: f32| Ok(val_as_flt/10.0))?;
+
+        let watts_l1 = str::from_utf8(&payload[131..138])
+            .map_err(|err| ElectricValueParseError{
+                element: String::from("watts_l1"),
+                message: format!("{}", err),
+                data: String::new(),
+            })
+            .and_then( |val_as_str| val_as_str.parse().map_err(|err|{
+                ElectricValueParseError{
+                    element: String::from("watts_l1"),
+                    message: format!("{}", err),
+                    data: String::from(val_as_str),
+                }
+            }))?;
+
+        let watts_l2 = str::from_utf8(&payload[138..145])
+            .map_err(|err| ElectricValueParseError{
+                element: String::from("watts_l2"),
+                message: format!("{}", err),
+                data: String::new(),
+            })
+            .and_then( |val_as_str| val_as_str.parse().map_err(|err|{
+                ElectricValueParseError{
+                    element: String::from("watts_l2"),
+                    message: format!("{}", err),
+                    data: String::from(val_as_str),
+                }
+            }))?;
+
+        let watts_total = str::from_utf8(&payload[152..159])
+            .map_err(|err| ElectricValueParseError{
+                element: String::from("watts_total"),
+                message: format!("{}", err),
+                data: String::new(),
+            })
+            .and_then( |val_as_str| val_as_str.parse().map_err(|err|{
+                ElectricValueParseError{
+                    element: String::from("watts_total"),
+                    message: format!("{}", err),
+                    data: String::from(val_as_str),
+                }
+            }))?;
+
+        let pf_l1_dir = str::from_utf8(&payload[159..160])
+            .map_err(|err| ElectricValueParseError{
+                element: String::from("pf_l1_dir"),
+                message: format!("{}", err),
+                data: String::new(),
+            })?;
+
+        let pf_l1 = str::from_utf8(&payload[160..163])
+            .map_err(|err| ElectricValueParseError{
+                element: String::from("pf_l1"),
+                message: format!("{}", err),
+                data: String::new(),
+            })
+            .and_then( |val_as_str| val_as_str.trim().parse().map_err(|err|{
+                ElectricValueParseError{
+                    element: String::from("pf_l1"),
+                    message: format!("{}", err),
+                    data: String::from(val_as_str),
+                }
+            }))
+            .and_then(|val_as_flt: f32| {
+                let ret_val = val_as_flt/100.0;
+                if pf_l1_dir == "L" {
+                    Ok(ret_val)
+                } else if pf_l1_dir == "C" {
+                    Ok(1.0 + (1.0-ret_val))
+                } else {
+                    Ok(ret_val)
+                }
+            })?;
+
+        let pf_l2_dir = str::from_utf8(&payload[163..164])
+            .map_err(|err| ElectricValueParseError{
+                element: String::from("pf_l2_dir"),
+                message: format!("{}", err),
+                data: String::new(),
+            })?;
+
+        let pf_l2 = str::from_utf8(&payload[164..167])
+            .map_err(|err| ElectricValueParseError{
+                element: String::from("pf_l2"),
+                message: format!("{}", err),
+                data: String::new(),
+            })
+            .and_then( |val_as_str| val_as_str.trim().parse().map_err(|err|{
+                ElectricValueParseError{
+                    element: String::from("pf_l2"),
+                    message: format!("{}", err),
+                    data: String::from(val_as_str),
+                }
+            }))
+            .and_then(|val_as_flt: f32| {
+                let ret_val = val_as_flt/100.0;
+                if pf_l2_dir == "L" {
+                    Ok(ret_val)
+                } else if pf_l2_dir == "C" {
+                    Ok(1.0 + (1.0-ret_val))
+                } else {
+                    Ok(ret_val)
+                }
+            })?;
+
+        let reactive_l1 = str::from_utf8(&payload[171..178])
+            .map_err(|err| ElectricValueParseError{
+                element: String::from("reactive_l1"),
+                message: format!("{}", err),
+                data: String::new(),
+            })
+            .and_then( |val_as_str| val_as_str.parse().map_err(|err|{
+                ElectricValueParseError{
+                    element: String::from("reactive_l1"),
+                    message: format!("{}", err),
+                    data: String::from(val_as_str),
+                }
+            }))?;
+
+        let reactive_l2 = str::from_utf8(&payload[178..185])
+            .map_err(|err| ElectricValueParseError{
+                element: String::from("reactive_l2"),
+                message: format!("{}", err),
+                data: String::new(),
+            })
+            .and_then( |val_as_str| val_as_str.parse().map_err(|err|{
+                ElectricValueParseError{
+                    element: String::from("reactive_l2"),
+                    message: format!("{}", err),
+                    data: String::from(val_as_str),
+                }
+            }))?;
+
+        let reactive_total = str::from_utf8(&payload[192..199])
+            .map_err(|err| ElectricValueParseError{
+                element: String::from("reactive_total"),
+                message: format!("{}", err),
+                data: String::new(),
+            })
+            .and_then( |val_as_str| val_as_str.parse().map_err(|err|{
+                ElectricValueParseError{
+                    element: String::from("reactive_total"),
+                    message: format!("{}", err),
+                    data: String::from(val_as_str),
+                }
+            }))?;
+
+        let frequency = str::from_utf8(&payload[199..203])
+            .map_err(|err| ElectricValueParseError{
+                element: String::from("frequency"),
+                message: format!("{}", err),
+                data: String::new(),
+            })
+            .and_then( |val_as_str| val_as_str.parse().map_err(|err|{
+                ElectricValueParseError{
+                    element: String::from("frequency"),
+                    message: format!("{}", err),
+                    data: String::from(val_as_str),
+                }
+            }))
+            .and_then(|val_as_flt: f32| Ok(val_as_flt/100.0))?;
+
+
+        Ok(ElectricValue{
+            total_kwh,
+            total_reactive,
+            total_reverse,
+            volts_l1,
+            volts_l2,
+            amps_l1,
+            amps_l2,
+            watts_l1,
+            watts_l2,
+            watts_total,
+            pf_l1,
+            pf_l2,
+            reactive_l1,
+            reactive_l2,
+            reactive_total,
+            frequency,
+        })
+    }
 }
 
 pub fn load_from_file(yaml_file: &str) -> HashMap<i16, SensorDefinition> {
