@@ -110,6 +110,8 @@ pub struct AirParticulateValue{
 
 #[derive(Debug, PartialEq, Serialize, Deserialize)]
 pub struct ElectricValue {
+    pub timestamp: u64,
+    pub location: i16,
     pub total_kwh: f64,
     pub total_reactive: f64,
     pub total_reverse: f64,
@@ -143,7 +145,7 @@ impl std::fmt::Display for ElectricValueParseError {
 }
 
 impl ElectricValue {
-    pub fn new(payload: &[u8;255]) -> Result<ElectricValue, ElectricValueParseError> {
+    pub fn new(timestamp: u64, location: i16, payload: &[u8;255]) -> Result<ElectricValue, ElectricValueParseError> {
 
         let kwh_scale: u8 = str::from_utf8(&payload[230..231])
             .map_err(|err| ElectricValueParseError{
@@ -469,6 +471,8 @@ impl ElectricValue {
 
 
         Ok(ElectricValue{
+            timestamp,
+            location,
             total_kwh,
             total_reactive,
             total_reverse,
