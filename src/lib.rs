@@ -130,6 +130,35 @@ pub struct ElectricValue {
     pub frequency: f32,
 }
 
+#[derive(Debug, PartialEq, Serialize, Deserialize)]
+pub struct ThermostatValue {
+    #[serde(default)]pub timestamp: u64,
+    pub temp: f32,
+    pub tmode: i16,
+    pub fmode: i16,
+    #[serde(rename = "override")] pub temp_override: i16,
+    #[serde(default)]pub hold: i16,
+    #[serde(default)]pub t_heat: f32,
+    #[serde(default)]pub t_cool: f32,
+    #[serde(default)]pub it_heat: f32,
+    #[serde(default)]pub it_cool: f32,
+    #[serde(default)]pub a_heat: f32,
+    #[serde(default)]pub a_cool: f32,
+    #[serde(default)]pub a_mode: i16,
+    #[serde(default)]pub t_type_post: i16,
+    #[serde(default)]pub tstate: i16,
+    #[serde(default)]pub fstate: i16,
+    pub time: ThermostatTime,
+    #[serde(default)]pub program_mode: i16,
+    #[serde(default)]pub ttarget: i16,
+}
+
+#[derive(Debug, PartialEq, Serialize, Deserialize)]
+pub struct ThermostatTime{
+    pub day: u8,
+    pub hour: u8,
+    pub minute: u8,
+}
 
 #[derive(Debug)]
 pub struct ElectricValueParseError {
