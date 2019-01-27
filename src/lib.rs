@@ -109,25 +109,10 @@ pub struct AirParticulateValue{
 }
 
 #[derive(Debug, PartialEq, Serialize, Deserialize)]
-pub struct ElectricValue {
+pub struct HeartRateValue {
     pub timestamp: u64,
-    pub location: i16,
-    pub total_kwh: f64,
-    pub total_reactive: f64,
-    pub total_reverse: f64,
-    pub volts_l1: f32,
-    pub volts_l2: f32,
-    pub amps_l1: f32,
-    pub amps_l2: f32,
-    pub watts_l1: i16,
-    pub watts_l2: i16,
-    pub watts_total: i16,
-    pub pf_l1: f32,
-    pub pf_l2: f32,
-    pub reactive_l1: i16,
-    pub reactive_l2: i16,
-    pub reactive_total: i16,
-    pub frequency: f32,
+    pub user_id: i16,
+    pub rate: i16,
 }
 
 #[derive(Debug, PartialEq, Serialize, Deserialize)]
@@ -158,6 +143,28 @@ pub struct ThermostatTime{
     pub day: u8,
     pub hour: u8,
     pub minute: u8,
+}
+
+#[derive(Debug, PartialEq, Serialize, Deserialize)]
+pub struct ElectricValue {
+    pub timestamp: u64,
+    pub location: i16,
+    pub total_kwh: f64,
+    pub total_reactive: f64,
+    pub total_reverse: f64,
+    pub volts_l1: f32,
+    pub volts_l2: f32,
+    pub amps_l1: f32,
+    pub amps_l2: f32,
+    pub watts_l1: i16,
+    pub watts_l2: i16,
+    pub watts_total: i16,
+    pub pf_l1: f32,
+    pub pf_l2: f32,
+    pub reactive_l1: i16,
+    pub reactive_l2: i16,
+    pub reactive_total: i16,
+    pub frequency: f32,
 }
 
 #[derive(Debug)]
